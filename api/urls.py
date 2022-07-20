@@ -22,6 +22,7 @@ urlpatterns += [
     path('shops/add-member/', AddMemberView),
     path('shops/members-list/<int:shop_pk>/', MembersListView),
     path('shops/products-list/<int:pk>/', ProductsListView),
+    path('regions/v2/', RegionsApiView),
     
 
 #     path('shops/<int:pk>/', ),

@@ -1,6 +1,3 @@
-
-from urllib import response
-from __init__ import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from user_model.models import User
@@ -181,6 +178,55 @@ class ProductsListView(APIView):
 
         return Response(response)
 
+class RegionsApiView(APIView):
+
+    def get(self, request):
+        viloyatlar = Viloyat.objects.all()
+        
+
+
+        response = {
+            'status' : 200,
+            'data' : []
+        }
+
+        for i in viloyatlar:
+            doc = {}
+            
+            doc['name'] = i.name
+            doc['data'] = []
+
+
+            for x in Tuman.objects.filter(viloyat=i):
+                doc['data'].append(
+                    {'name' : x.name}
+                )
+
+
+            response['data'].append(doc)
+
+
+
+
+
+            """ response['data'].append(
+                {
+                    'name' : i.name,
+                    'data' : [] 
+                }
+            )
+       
+            for x in Tuman.objects.filter(viloyat=i):
+                response['data']['data'].append(
+                   {
+                        'name' : x.name,
+                   } 
+                ) """
+      
+
+
+
+        return Response(response)
 
 # =================================================================================
 
@@ -191,4 +237,5 @@ AddMemberView = AddMemberView.as_view()
 MembersListView = MembersListView.as_view()
 
 ProductsListView = ProductsListView.as_view()
+RegionsApiView = RegionsApiView.as_view()
 

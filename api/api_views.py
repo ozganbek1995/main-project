@@ -1,6 +1,5 @@
 from django.db.models import Q
 
-from __init__ import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from user_model.models import User
@@ -289,7 +288,7 @@ class ShopsViewV2(APIView):
 
 
 class UserDetailView(APIView):
-    def get(self, request, id):
+    def get(self, request, pk):
 
         response = {
             "status" : 200,
