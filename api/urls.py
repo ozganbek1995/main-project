@@ -24,7 +24,8 @@ urlpatterns += [
     path('shops/products-list/<int:pk>/', ProductsListView),
     path('regions/v2/', RegionsApiView),
     
-    path('geo/', GeoLocationApi.as_view()),
+    path('geo/<str:lat>/<str:lon>/', GeoLocationApi.as_view()),
+
 
 
     

@@ -29,8 +29,9 @@ class Shop(models.Model):
     viloyat = models.ForeignKey(Viloyat, on_delete=models.CASCADE)
     tuman = models.ForeignKey(Tuman, on_delete=models.CASCADE)
 
-    lon = models.CharField(max_length=200)
     lat = models.CharField(max_length=200)
+    lon = models.CharField(max_length=200)
+
 
     def __str__(self):
         return self.name

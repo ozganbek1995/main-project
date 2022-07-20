@@ -7,7 +7,7 @@ from abconfig.settings import DOMAIN
 from user_model.serializers import *
 from api.api_views import *
 from api.new_api_views import *
-from geopy.geocoders import Nominatim
+
 from geopy import distance
 
 
@@ -32,8 +32,8 @@ class GetShopsView(APIView):
                 'viloyat' : shop.viloyat.name,
                 'tuman' : shop.tuman.name,
                 'location' : {
-                    'lon' : shop.lon,
                     'lat' : shop.lat,
+                    'lon' : shop.lon,
                     }
             })
 
@@ -215,37 +215,41 @@ class RegionsApiView(APIView):
         return Response(response)
 
 
-
 class GeoLocationApi(APIView):
-    def get(self, request):
+    def get(self, request, lat, lon):
         response = {
             'status' : 200,
         }
-        payload = []
-        sorted_list = []
-        lonLat = []
-        nbm = (40.60401341859055, 71.09049551336764)
 
+
+        payload = []
+        user_coordinate = (float(lat), float(lon))
+        print(user_coordinate)
+        minDistanse = 10
 
         for i in Shop.objects.all():
-            payload.append(
-                {
-                    'id' : i.id,
-                    'name' : i.name,
-                    'lat' : i.lat,
-                    'lon' : i.lon,
+            model_cordinate = (float(i.lat), float(i.lon))
 
-                    'km' : str(distance.distance(nbm, (float(i.lat), float(i.lon))))
-                }
-            )
 
-            lonLat.append((float(i.lat), float(i.lon)))
+            if float(str(distance.distance(user_coordinate, model_cordinate))[:17]) <= minDistanse:
+                payload.append(
+                    {
+                        'id' : i.id,
+                        'name' : i.name,
+                        'lat' : i.lat,
+                        'lon' : i.lon,
+
+                        'km' : str(distance.distance(user_coordinate, model_cordinate))
+                    }
+                )
 
             
+
+        payload = sorted(payload, key=lambda v: v['km'])
+        print(payload)
         response['data'] = payload
 
-
-        print(lonLat)
+        
 
         return Response(response)
 
