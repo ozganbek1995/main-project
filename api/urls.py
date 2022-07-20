@@ -2,6 +2,16 @@
 from django.urls import path
 from .api_views import *
 from .new_api_views import *
+from django.shortcuts import render
+
+def doc(request):
+    return render(request, 'doc.html')
+
+
+
+
+
+
 urlpatterns = [
     path('shop/<int:pk>/', ShopDetailView),
     path('shops/', ShopsView),
@@ -23,7 +33,7 @@ urlpatterns += [
     path('shops/members-list/<int:shop_pk>/', MembersListView),
     path('shops/products-list/<int:pk>/', ProductsListView),
     path('regions/v2/', RegionsApiView),
-    
+    path('doc/', doc),
     path('geo/<str:lat>/<str:lon>/', GeoLocationApi.as_view()),
 
 
