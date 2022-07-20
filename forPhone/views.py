@@ -1,10 +1,8 @@
-import imghdr
-import re
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from api.models import *
 
-from __init__ import *
 
 @login_required(login_url='login')
 def homePage(request):

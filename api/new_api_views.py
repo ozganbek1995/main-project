@@ -5,9 +5,10 @@ from api.models import *
 from user_model.models import *
 from abconfig.settings import DOMAIN
 from user_model.serializers import *
-from django.db.models import Q
 from api.api_views import *
 from api.new_api_views import *
+from geopy.geocoders import Nominatim
+from geopy import distance
 
 
 class GetShopsView(APIView):
@@ -192,14 +193,17 @@ class RegionsApiView(APIView):
 
         for i in viloyatlar:
             doc = {}
-            
+            doc['id'] = i.id
             doc['name'] = i.name
             doc['data'] = []
 
 
             for x in Tuman.objects.filter(viloyat=i):
                 doc['data'].append(
-                    {'name' : x.name}
+                    {
+                        'id' : x.id,
+                        'name' : x.name
+                    }
                 )
 
 
@@ -208,25 +212,43 @@ class RegionsApiView(APIView):
 
 
 
+        return Response(response)
 
-            """ response['data'].append(
+
+
+class GeoLocationApi(APIView):
+    def get(self, request):
+        response = {
+            'status' : 200,
+        }
+        payload = []
+        sorted_list = []
+        lonLat = []
+        nbm = (40.60401341859055, 71.09049551336764)
+
+
+        for i in Shop.objects.all():
+            payload.append(
                 {
+                    'id' : i.id,
                     'name' : i.name,
-                    'data' : [] 
+                    'lat' : i.lat,
+                    'lon' : i.lon,
+
+                    'km' : str(distance.distance(nbm, (float(i.lat), float(i.lon))))
                 }
             )
-       
-            for x in Tuman.objects.filter(viloyat=i):
-                response['data']['data'].append(
-                   {
-                        'name' : x.name,
-                   } 
-                ) """
-      
+
+            lonLat.append((float(i.lat), float(i.lon)))
+
+            
+        response['data'] = payload
 
 
+        print(lonLat)
 
         return Response(response)
+
 
 # =================================================================================
 
@@ -238,4 +260,3 @@ MembersListView = MembersListView.as_view()
 
 ProductsListView = ProductsListView.as_view()
 RegionsApiView = RegionsApiView.as_view()
-

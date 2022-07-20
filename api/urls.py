@@ -24,6 +24,10 @@ urlpatterns += [
     path('shops/products-list/<int:pk>/', ProductsListView),
     path('regions/v2/', RegionsApiView),
     
+    path('geo/', GeoLocationApi.as_view()),
+
+
+    
 
 #     path('shops/<int:pk>/', ),
 #     path('shops/<int:pk>/<int:pk>/', ),
