@@ -82,3 +82,19 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+REPORT_TYPE = (
+    ('salom1', 'alik1'),
+    ('salom2', 'alik2'),
+    ('salom3', 'alik3'),
+)
+
+class Report(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    type = models.CharField(choices=REPORT_TYPE)
+
+
+    def __str__(self):
+        return self.type
