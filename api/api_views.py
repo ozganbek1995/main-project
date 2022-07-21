@@ -40,9 +40,6 @@ class ShopDetailView(APIView):
 
         return Response(response)
 
-
-
-
 class ShopFilterView(APIView):
     def get(self, request, pk1, pk2=0):
 
@@ -138,100 +135,6 @@ class ShopsView(APIView):
 
         return Response(resp)
 
-
-class UsersView(APIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-    def get(self, request):
-        response = {
-            "status" : 200,
-            "data" : []
-            }
-        users = User.objects.all()
-        payload = []
-        for i in users:
-            payload.append({
-                'id' : i.id,
-                'first_name' : i.first_name,
-                'last_name' : i.last_name,
-                'phone' : i.phone,
-                'img' : str(DOMAIN) + i.img.url,
-            })
-
-
-        response['data'] = payload
-
-        return Response(response)
-
-    def post(self, request):
-        rd = request.data
-
-        response = {
-            'status' : 200
-        }
-
-        try:
-            first_name = rd['first_name']
-            last_name = rd['last_name']
-            phone = rd['phone']
-
-            password = '@Qwerty11'
-            username = str(first_name + phone + last_name)
-
-            img = request.FILES['img']
-            email = username + '1234@gmail.com'
-
-            new_user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name,password=password, email=email, phone=phone, img=img)
-
-
-            print()
-            print(username)
-            print(first_name)
-            print(last_name)
-            print(email)
-            print(phone)
-            print(password)
-            print(img.name)
-            print(img.size)
-            print()
-
-        except:
-            response['status'] = 400
-
-
-        return Response(response)
-
-
-
-
-class UserTestView(APIView):
-    def get(self, request, phone):
-        response = {
-            "status" : 200,
-            }
-
-        try:
-            user = User.objects.get(phone=phone)
-            response['data'] = {
-                "id" : user.id,
-                "first_name" : user.first_name,
-                "last_name" : user.last_name,
-                "phone" : user.phone,
-                'img' : str(DOMAIN) + user.img.url,
-                }
-
-        except Exception as e:
-            print(e)
-            response = {
-                "data" : None
-                }
-
-        return Response(response)
-
-
-
 class ShopsViewV2(APIView):
     def get(self, request):
 
@@ -285,8 +188,6 @@ class ShopsViewV2(APIView):
 
         return Response(resp)
 
-
-
 class UserDetailView(APIView):
     def get(self, request, pk):
 
@@ -313,7 +214,6 @@ class UserDetailView(APIView):
             }
 
         return Response(response)
-
 
 class TumanlarView(APIView):
     def get(self, request, pk):
@@ -356,8 +256,5 @@ ShopDetailView = ShopDetailView.as_view()
 ShopsView = ShopsView.as_view()
 ShopFilterView = ShopFilterView.as_view()
 ShopsViewV2 = ShopsViewV2.as_view()
-
-UsersView = UsersView.as_view()
-UserTestView = UserTestView.as_view()
 UserDetailView =  UserDetailView.as_view()
 TumanlarView = TumanlarView.as_view()

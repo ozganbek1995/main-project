@@ -19,8 +19,7 @@ urlpatterns = [
     path('shops/<int:pk1>/<int:pk2>/', ShopFilterView),
     path('shops/<int:pk1>/', ShopFilterView),
 
-    path('users/', UsersView),
-    path('user-test/<str:phone>/', UserTestView),
+    
 
     path('regions/<int:pk>/', TumanlarView)
 ]
@@ -34,10 +33,15 @@ urlpatterns += [
     path('shops/products-list/<int:pk>/', ProductsListView),
     path('regions/v2/', RegionsApiView),
     path('doc/', doc),
-    path('geo/<str:lat>/<str:lon>/', GeoLocationApi.as_view()),
+    path('geo/<str:lat>/<str:lon>/', GeoLocationApi),
+    path('users/get/', GetUsersView),
+    path('users/post/', CreateUserView),
 
+    path('user/<int:id>/put/', PostUserUpdateView),
+    path('user-test/<str:phone>/', TestUserView),
 
-
+    path('shop/<int:pk>/get/', ShopDetailView),
+]
     
 
 #     path('shops/<int:pk>/', ),
@@ -49,4 +53,4 @@ urlpatterns += [
 #     path('users-test/<int:phone>/', ),
 
 #     path('regions/<int:pk>/', ),
-]
+

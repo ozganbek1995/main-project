@@ -93,8 +93,8 @@ REPORT_TYPE = (
 
 class Report(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    type = models.CharField(choices=REPORT_TYPE)
-
+    type = models.CharField(choices=REPORT_TYPE, max_length=200)
+    activ = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.type
+        return f"{self.product} => {self.type}"

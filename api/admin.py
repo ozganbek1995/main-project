@@ -15,5 +15,7 @@ admin.site.register(Product)
 admin.site.register(Currency)
 admin.site.register(Types)
 
+admin.site.register(Report)
+
 
 

@@ -41,6 +41,20 @@ class GetShopsView(APIView):
         response['data'] = payload
         return Response(response)
 
+class ShopDetailView(APIView):
+    def get(self, request, pk):
+        response = {
+            'status' : 200,
+        }
+        try:
+            shop = Shop.objects.get(pk=pk)
+        except Shop.DoesNotExist:
+            response['status'] = 404
+
+        return Response(response)
+
+class 
+
 class PostShopsView(APIView):
     queryset = Shop.objects.all()
     serializer_class = ShopSerializer
@@ -99,7 +113,6 @@ class PostShopsView(APIView):
 
         return Response(response)
 
-
 class AddMemberView(APIView):
     def post(self, request):
         response = {'status' : 200}
@@ -141,7 +154,6 @@ class MembersListView(APIView):
             }
 
         return Response(response)
-
 
 class ProductsListView(APIView):
     def get(self, request, pk):
@@ -214,7 +226,6 @@ class RegionsApiView(APIView):
 
         return Response(response)
 
-
 class GeoLocationApi(APIView):
     def get(self, request, lat, lon):
         response = {
@@ -253,6 +264,107 @@ class GeoLocationApi(APIView):
 
         return Response(response)
 
+class GetUsersView(APIView):
+    def get(self, request):
+        response = {
+            'status' : 200,
+            'data' : []
+        }
+        users = User.objects.all()
+        for u in users:
+            response['data'].append(
+                {
+                    'id' : u.id,
+                    'first_name' : u.first_name,
+                    'last_name' : u.last_name,
+                    'phone' : u.phone,
+                    'img' : str(DOMAIN) + u.img.url,
+                }
+            )
+        return Response(response)
+
+class CreateUserView(APIView):
+    def post(self, request):
+        rd = request.data
+        response = {'status' : 200}
+        try:
+            first_name = rd['first_name']
+            last_name = rd['last_name']
+            phone = rd['phone']
+            image = request.FILES['image']
+
+            new_user = User.objects.create_user(
+                first_name=first_name,
+                last_name=last_name,
+                phone=phone,
+                image=image
+            )
+
+        except:
+            response['status'] = 400
+
+        return Response(response)
+
+class TestUserView(APIView):
+    def get(self, request, phone):
+        response = {
+            'status' : 200,
+            'data' : []
+        }
+
+        try:
+            user = User.objects.get(phone=phone)
+
+
+            response['data'] = {
+                "id" : user.id,
+                "first_name" : user.first_name,
+                "last_name" : user.last_name,
+                "phone" : user.phone,
+                'img' : str(DOMAIN) + user.img.url,
+            }
+            
+        except User.DoesNotExist:
+            response['data'] = None
+
+        except Exception as e:
+            print(e) 
+
+        return Response(response)
+
+class PostUserUpdateView(APIView):
+    def post(self, request, id):
+        response = {
+            'status' : 200
+        }
+        rd = request.data
+
+        try:
+            user:User = User.objects.get(pk=id)
+
+            first_name = rd['first_name']
+            last_name = rd['last_name']
+            phone = rd['phone']
+            image = rd['image']
+
+            user.first_name = first_name
+            user.last_name = last_name
+            user.phone = phone
+            user.img = image
+
+            user.save()
+
+        except User.DoesNotExist:
+            response['status'] = 404
+        except KeyError:
+            response['status'] = 400
+        except Exception as e:
+            print(e)
+
+
+        return Response(response)
+
+
 
 # =================================================================================
 
@@ -261,6 +373,11 @@ GetShopsView = GetShopsView.as_view()
 PostShopsView = PostShopsView.as_view()
 AddMemberView = AddMemberView.as_view()
 MembersListView = MembersListView.as_view()
-
 ProductsListView = ProductsListView.as_view()
 RegionsApiView = RegionsApiView.as_view()
+GeoLocationApi = GeoLocationApi.as_view()
+GetUsersView = GetUsersView.as_view()
+CreateUserView = CreateUserView.as_view()
+TestUserView = TestUserView.as_view() 
+PostUserUpdateView = PostUserUpdateView.as_view()
+ShopDetailView = ShopDetailView.as_view()
