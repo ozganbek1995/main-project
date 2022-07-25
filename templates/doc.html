@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/doc-style.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">Barcha do'konlar ro'yhati</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/shops/get/
+        </div>
+        <div class="request-type">
+            GET
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Yangi do'kon yaratish</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/shops/post/
+        </div>
+        <div class="request-type">
+            POST
+        </div>
+        <div class="code">
+            <pre>
+{
+    "host-id" : host-id,
+    "name" : "shop name",
+    "description" : "description",
+    "password" : "password",
+    "viloyat" : viloyat-id,
+    "tuman" : tuman-id,
+    "lat" : "lat",
+    "lon" : "lon",
+}
+
+{"image" : "file.png"}
+</pre>
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Do'konga a'zo qoshish</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/shops/add-member/
+        </div>
+        <div class="request-type">
+            POST
+        </div>
+        <div class="code">
+            <pre>
+{
+    "user-id" : user-id,
+    "shop-id" : shop-id
+}</pre>
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Do'kon a'zolar ro'yhati</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/members-list/<span class="id">SHOP ID</span>/
+        </div>
+        <div class="request-type">
+            GET
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Do'kon mahsulotlari</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/products-list/<span class="id">SHOP ID</span>/
+        </div>
+        <div class="request-type">
+            GET
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Viloyatlar va Tumanlar</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/regions/
+        </div>
+        <div class="request-type">
+            GET
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Eng yaqin do'konlar</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/geo/<span class="id">USER LAT</span>/<span class="id">USER LON</span>/
+        </div>
+        <div class="request-type">
+            GET
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Yangi User yaratish</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/users/post/
+        </div>
+        <div class="request-type">
+            POST
+        </div>
+        <div class="code">
+            <pre>
+{
+    "first_name" : "first_name",
+    "last_name" : "last_name",
+    "phone" : "phone",
+}
+
+{"image" : "file.png"}
+</pre>
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">User ma'lumotlarini o'zgartirish</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/user/<span class="id">USER ID</span>/put/
+        </div>
+        <div class="request-type">
+            POST
+        </div>
+        <div class="code">
+            <pre>
+{
+    "first_name" : "new first_name",
+    "last_name" : "new last_name",
+    "phone" : "new phone",
+}
+
+{"image" : "file.png"}
+</pre>
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Barcha foydalanuvchilar ro'yhati</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/users/get/<span class="id">USER LAT</span>/<span class="id">USER LON</span>/
+        </div>
+        <div class="request-type">
+            GET
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Foydalanuvchi bor yoki yo'qligini tekshirish</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/user-test/<span class="id">PHONE</span>/
+        </div>
+        <div class="request-type">
+            GET
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">Faqat bitta do'kon ma'lumotlarini olish</div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/shop/<span class="id">SHOP ID</span>/get/
+        </div>
+        <div class="request-type">
+            GET
+        </div>
+        <hr>
+
+    </div>
+
+    <div class="container">
+        <div class="title">User ning do'konlar ro'yhatini olish </div>
+        <div class="code">
+            https://spiska.pythonanywhere.com/api/filter-by-user/<span class="id">USER ID</span>/get/
+        </div>
+        <div class="request-type">
+            GET
+        </div>
+        <hr>
+
+    </div>
+
+
+
+</body>
+
+</html>
+
+<!-- 
+    
+ -->

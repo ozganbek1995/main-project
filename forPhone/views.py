@@ -2,13 +2,13 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from api.models import *
-
+from django.db.models import Q 
 
 @login_required(login_url='login')
 def homePage(request):
     context = {}
 
-    shops = Shop.objects.filter(creators=request.user)
+    shops = Shop.objects.filter(Q(admins=request.user) or Q(host=request.user))
 
     context['shops'] = shops
     return render(request, 'index.html', context)
@@ -74,7 +74,7 @@ def createShop(request):
             tuman=tuman,
         )
 
-        new_shop.creators.add(request.user)
+        
         
         return redirect('homePage')
 

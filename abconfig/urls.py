@@ -10,22 +10,13 @@ from django.shortcuts import redirect
 
 from user_model.models import User
 
-def base(request):
-    for i in range(10):
-        User.objects.create_user(
-            first_name=f'testUserfirstname{i}',
-            last_name=f'testUserlastname{i}',
-            email=f'lorem{i}ipsum@gmail.com',
-            password='password',
-            username = f'loremTest{i}'
-        )
-    return redirect('homePage')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('forPhone.urls')),
     path('api/', include('api.urls')),
-    path('lorem-ipsum/', base),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
 urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

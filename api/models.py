@@ -17,9 +17,19 @@ class Tuman(models.Model):
         return self.name
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return self.name
+
+        
+
+
+
 class Shop(models.Model):
     host = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Creator')
-    creators = models.ManyToManyField(User, related_name='Admins', blank=True)
+    admins = models.ManyToManyField(User, related_name='Admins', blank=True)
     members = models.ManyToManyField(User, related_name='Members', blank=True)
 
     name = models.CharField(max_length=200)

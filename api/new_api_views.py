@@ -45,15 +45,49 @@ class ShopDetailView(APIView):
     def get(self, request, pk):
         response = {
             'status' : 200,
+            'data' : {}
         }
         try:
             shop = Shop.objects.get(pk=pk)
+            
+            response['data'] = {
+                'id' : shop.id,
+                'name' : shop.name,
+                'description' : shop.description,
+                'img' : str(DOMAIN + shop.image.url),
+                'viloyat' : shop.viloyat.name,
+                'tuman' : shop.tuman.name,
+                'location' : {
+                    'lat' : shop.lat,
+                    'lon' : shop.lon,
+                    }
+            
+            }
+
+
         except Shop.DoesNotExist:
             response['status'] = 404
 
         return Response(response)
 
-class 
+class ShopUpdateView(APIView):
+    def get(self, request, pk):
+        response = {
+            'status' : 200,
+            'data' : []
+        }
+
+        try:
+            shop = Shop.objects.get(pk=pk)
+            rd = request.data
+
+            
+        except Shop.DoesNotExist:
+            response['status'] = 400
+            response['data'] = None
+            
+
+        return Response()
 
 class PostShopsView(APIView):
     queryset = Shop.objects.all()
@@ -364,8 +398,108 @@ class PostUserUpdateView(APIView):
 
         return Response(response)
 
+class FilterByUser(APIView):
+    def get(self, request, pk):
+        response = {
+            'status' : 200,
+            'user' : {},
+            'creator' : [],
+            'admin' : []
+        }
+        creator = []
+        admins = []
+        try:
+            user = User.objects.get(pk=pk)
+
+            shops = Shop.objects.filter(
+                host=user
+            )
+
+            for shop in shops:
+                creator.append({
+                    'id' : shop.id,
+                    'name' : shop.name,
+                    'description' : shop.description,
+                    'img' : str(DOMAIN + shop.image.url),
+                    'viloyat' : shop.viloyat.name,
+                    'tuman' : shop.tuman.name,
+                    'location' : {
+                        'lat' : shop.lat,
+                        'lon' : shop.lon,
+                        }
+                })
+            
+     
+
+            shops = Shop.objects.filter(
+                admins=user
+            )
+
+            for shop in shops:
+                admins.append({
+                    'id' : shop.id,
+                    'name' : shop.name,
+                    'description' : shop.description,
+                    'img' : str(DOMAIN + shop.image.url),
+                    'viloyat' : shop.viloyat.name,
+                    'tuman' : shop.tuman.name,
+                    'location' : {
+                        'lat' : shop.lat,
+                        'lon' : shop.lon,
+                        }
+                })
+
+            response['creator'] = creator
+            response['admin'] = admins
+            response['user']  = {
+                "id" : user.id,
+                "first_name" : user.first_name,
+                "last_name" : user.last_name,
+                "phone" : user.phone,
+                'img' : str(DOMAIN) + user.img.url,
+            }
 
 
+        except User.DoesNotExist:
+            response['status'] = 400
+            response['data'] = None
+
+
+        return Response(response)
+
+class ProductView(APIView):
+
+    def get(self, request, pk):
+        response = {
+            'status' : 200,
+            'data' : []
+        }
+        try:
+            shop = Shop.objects.get(pk=pk)
+            objects = Product.objects.filter(shop=shop)
+
+            data = []
+
+            for i in objects:
+                data.append(
+                    {
+                        'id' : i.id,
+                        'name' : i.name,
+                        'image1' : str(DOMAIN + i.image1.url),
+                        # 'image2' : str(DOMAIN + i.image2.url),
+                        # 'image3' : str(DOMAIN + i.image3.url),
+                        'price' : f'{i.selling_price} {i.currency.name}',
+                        'views' : i.seens,
+                        'likes' : i.likes,  
+                    }
+                )
+
+            response['data'] = data
+        except Shop.DoesNotExist:
+            response['status'] = 400
+
+
+        return Response(response)
 # =================================================================================
 
 
@@ -381,3 +515,6 @@ CreateUserView = CreateUserView.as_view()
 TestUserView = TestUserView.as_view() 
 PostUserUpdateView = PostUserUpdateView.as_view()
 ShopDetailView = ShopDetailView.as_view()
+FilterByUser = FilterByUser.as_view()
+ProductView = ProductView.as_view()
+
